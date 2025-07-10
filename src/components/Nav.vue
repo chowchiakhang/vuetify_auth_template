@@ -12,9 +12,9 @@
 
     <v-btn
         v-for="link in links"
-        :key="link"
-        :text="link"
+        :text="link.title"
         variant="text"
+        @click="$router.push({ name: link.link })"
         >
     </v-btn>
     </v-app-bar>
@@ -24,5 +24,8 @@
   import { ref } from 'vue'
 
   const drawer = ref(null)
-  const links = ['Dashboard', 'Profile', 'Settings']
+  const links = [
+    {title: 'Home', link: '/'},
+    {title: 'Login', link: '/login/'},
+    {title: 'Sign Up', link: '/signup/'},]
 </script>
