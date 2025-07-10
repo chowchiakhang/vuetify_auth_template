@@ -27,5 +27,5 @@
   const links = [
     {title: 'Home', link: '/'},
     {title: 'Login', link: '/login/'},
-    {title: 'Sign Up', link: '/signup/'},]
+    {title: 'Sign Up', link: '/register/'},]
 </script>
