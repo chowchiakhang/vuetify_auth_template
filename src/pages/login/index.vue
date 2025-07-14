@@ -1,8 +1,11 @@
 <template>
     <v-container>
       <v-row>
-        <v-col>
-          <h1>Login Page</h1>
+        <v-col
+          cols="12"
+          md="6"
+          class="mx-auto">
+          <h1>Login</h1>
           <v-form>
             <v-text-field label="Username" required></v-text-field>
             <v-text-field label="Password" type="password" required></v-text-field>

@@ -16,6 +16,9 @@ import { createApp } from 'vue'
 // Styles
 import 'unfonts.css'
 
+// Axios
+import './axios'
+
 const app = createApp(App)
 
 registerPlugins(app)
