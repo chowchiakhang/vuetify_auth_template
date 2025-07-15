@@ -51,6 +51,8 @@
 <script setup>
   import { ref } from 'vue'
   import axios from 'axios'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
   const data = ref({
     name: '',
     email: '',
@@ -58,17 +60,10 @@
     confirmPassword: ''
   })
   // No additional script needed for now
-  async function handleSubmit(e) {
+  async function handleSubmit() {
     // Handle form submission logic here
     // For example, you can call an API to register the user
-    console.log('Form submitted', data.value);
-    const response = await axios.post('api/register', data.value);
-    if (response.status === 200) {  
-      console.log('Registration successful');
-      // Redirect or show success message
-    } else {
-      console.error('Registration failed', response.data);
-      // Handle error
-    }
+    const response = await axios.post('api/register', data.value)
+    router.push('/login')
   }
 </script>

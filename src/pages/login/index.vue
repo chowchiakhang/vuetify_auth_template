@@ -6,9 +6,9 @@
           md="6"
           class="mx-auto">
           <h1>Login</h1>
-          <v-form>
-            <v-text-field label="Username" required></v-text-field>
-            <v-text-field label="Password" type="password" required></v-text-field>
+          <v-form @submit.prevent="handleSubmit">
+            <v-text-field label="Email" required v-model="userData.email"></v-text-field>
+            <v-text-field label="Password" type="password" required v-model="userData.password"></v-text-field>
             <v-btn color="primary" type="submit">Login</v-btn>
           </v-form>
         </v-col>
@@ -17,5 +17,21 @@
 </template>
 
 <script setup>
-  //
+  import { ref } from 'vue'
+  import axios from 'axios'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
+  const userData = ref({
+    email: '',
+    password: ''
+  })
+  async function handleSubmit() {
+    // Handle form submission logic here
+    // For example, you can call an API to register the user
+    const response = await axios.post(
+      'api/login',
+      userData.value
+    )
+    router.push('/') // Redirect to home after login
+  }
 </script>
