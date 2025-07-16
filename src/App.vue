@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <Nav :user="user"/>
+    <Nav />
     <v-main>
-      <router-view :user="user"/>
+      <router-view />
     </v-main>
   </v-app>
 </template>
@@ -11,10 +11,15 @@
   import { onMounted, ref } from 'vue'
   import axios from 'axios'
   import Nav from './components/Nav.vue'
-  const user = ref('')
+  import { useUserStore } from './stores/user.js'
+  const userStore = useUserStore()
   onMounted(async () => {
-    // This is a placeholder for any setup logic you might need
-    const response = await axios.get('api/user')
-    user.value = response.data.name
+    try {
+      const response = await axios.get('api/user')
+      userStore.name = response.data.name; // Assuming the API returns the user's name
+    } catch (error) {
+      console.error('Error fetching user data:', error)
+      console.log('Please direct the user to login.')
+    }
   })
 </script>

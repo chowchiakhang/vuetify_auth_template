@@ -16,7 +16,7 @@
 
     <v-spacer></v-spacer>
 
-     <v-btn v-if="!user">
+     <v-btn v-if="userStore.name === null">
         <router-link
             to="/login"
             class="text-decoration-none"
@@ -24,7 +24,7 @@
             Login
         </router-link>
      </v-btn>
-     <v-btn v-if="!user">
+     <v-btn v-if="userStore.name === null">
         <router-link
             to="/register"
             class="text-decoration-none"
@@ -32,7 +32,7 @@
             Sign up
         </router-link>
      </v-btn>
-     <v-btn v-if="user" @click="handleClick">
+     <v-btn v-if="userStore.name !== null" @click="handleClick">
             Logout
      </v-btn>
     </v-app-bar>
@@ -42,20 +42,18 @@
   import { ref } from 'vue'
   import axios from 'axios'
   import { useRouter } from 'vue-router'
+  import { useUserStore } from '../stores/user.js'
+  const userStore = useUserStore()
 
   const router = useRouter()
   const drawer = ref(null)
-  const props = defineProps({
-    user: {
-      type: String
-    }
-  })
 //   const router = useRouter()
   async function handleClick() {
     // Handle logout logic here
     // For example, you can call an API to log out the user
     await axios.post('api/logout')
     // Redirect to home after logout
+    userStore.name = null;
     router.push('/')
   }
 </script>

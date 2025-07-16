@@ -1,12 +1,9 @@
 <template>
-  <div v-if="user">Welcome, {{ user }}.</div>
+  <div v-if="userStore.name !== null">Welcome, {{ userStore.name }}.</div>
   <div v-else>This is the home page.</div>
 </template>
 
 <script setup>
-  const props = defineProps({
-    user: {
-      type: String
-    }
-  })
+  import { useUserStore } from '../stores/user.js'
+  const userStore = useUserStore()
 </script>
