@@ -9,7 +9,12 @@
           <v-form @submit.prevent="handleSubmit">
             <v-text-field label="Email" required v-model="userData.email"></v-text-field>
             <v-text-field label="Password" type="password" required v-model="userData.password"></v-text-field>
-            <v-btn color="primary" type="submit">Login</v-btn>
+            <v-btn color="primary" type="submit" class="me-4">Login</v-btn>
+            <v-btn color="danger">
+              <router-link to="/forgot" class="text-decoration-none">
+                Forgot Password
+              </router-link>
+            </v-btn>
           </v-form>
         </v-col>
       </v-row>
