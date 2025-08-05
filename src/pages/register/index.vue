@@ -11,7 +11,7 @@
         <v-form @submit.prevent="handleSubmit">
 
           <v-text-field
-            v-model="data.name"
+            v-model="data.username"
             label="Username"
             required>
           </v-text-field>
@@ -56,7 +56,7 @@
   import Error from '../../components/Error.vue'
   const router = useRouter()
   const data = ref({
-    name: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -67,7 +67,7 @@
     // Handle form submission logic here
     // For example, you can call an API to register the user
     try {
-    const response = await axios.post('api/register', data.value)
+    const response = await axios.post('auth/register', data.value)
     router.push('/login')
     } catch (error) {
       console.error('Registration failed:', error)

@@ -8,7 +8,7 @@
           <h1>Login</h1>
           <Error v-if="errorMessage" :error="errorMessage"/>
           <v-form @submit.prevent="handleSubmit">
-            <v-text-field label="Email" required v-model="userData.email"></v-text-field>
+            <v-text-field label="User" required v-model="userData.username"></v-text-field>
             <v-text-field label="Password" type="password" required v-model="userData.password"></v-text-field>
             <v-btn color="primary" type="submit" class="me-4">Login</v-btn>
             <v-btn color="danger">
@@ -30,7 +30,7 @@
   import Error from '../../components/Error.vue'
   const router = useRouter()
   const userData = ref({
-    email: '',
+    username: '',
     password: ''
   })
   const errorMessage = ref("")
@@ -39,16 +39,19 @@
     // Handle form submission logic here
     // For example, you can call an API to register the user
     try {
-    const response = await axios.post(
-      'api/login',
-      userData.value
+      const formData = new FormData()
+      formData.append('username', userData.value.username)
+      formData.append('password', userData.value.password)
+      const response = await axios.post(
+        'auth/token',
+        formData
     )
     userStore.name = response.data.name; // Assuming the API returns the user's name
     router.push('/') // Redirect to home after login
     } catch (error) {
       console.error('Login failed:', error)
       // Handle error, e.g., show a notification
-      errorMessage.value = 'Login failed. Please check your email and password.'
+      errorMessage.value = 'Login failed. Please check your user name and password.'
     }
   }
 </script>
