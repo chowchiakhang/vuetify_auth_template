@@ -28,35 +28,19 @@
             ]"
           ></v-text-field>
 
-            <v-text-field
+          <PasswordField
             v-model="data.password"
-            label="Password"
-            :type="showPassword ? 'text' : 'password'"
-            required
-            :rules="[
-              value => !!value || 'Password is required',
-              value => value.length >= 8 || 'Password must be at least 8 characters long',
-              value => /[A-Z]/.test(value) || 'Password must contain at least one uppercase letter',
-              value => /[a-z]/.test(value) || 'Password must contain at least one lowercase letter',
-              value => /[0-9]/.test(value) || 'Password must contain at least one number',
-              value => /[^A-Za-z0-9]/.test(value) || 'Password must contain at least one symbol'
-            ]"
-            :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-            @click:append-inner="showPassword = !showPassword"
-            ></v-text-field>
+            label="'Password'"
+            :rules="passwordRules"
+          >
+          </PasswordField>
 
-          <v-text-field
+          <PasswordField
             v-model="data.confirmPassword"
-            label="Confirm Password"
-            :type="showConfirmPassword ? 'text' : 'password'"
-            required
-            :rules="[
-              value => !!value || 'Confirm Password is required',
-              value => value === data.password || 'Passwords must match'
-            ]"
-            :append-inner-icon="showConfirmPassword ? 'mdi-eye-off' : 'mdi-eye'"
-            @click:append-inner="showConfirmPassword = !showConfirmPassword"
-          ></v-text-field>
+            label="'Confirm Password'"
+            :rules="confirmPasswordRules"
+          >
+          </PasswordField>
 
           <v-btn
             color="primary"
@@ -84,15 +68,26 @@
   })
   const errorMessage = ref("")
   const form = ref()
-  const showPassword = ref(false)
-  const showConfirmPassword = ref(false)
+  const passwordRules = [
+    value => !!value || 'Password is required',
+    value => value.length >= 8 || 'Password must be at least 8 characters long',
+    value => /[A-Z]/.test(value) || 'Password must contain at least one uppercase letter',
+    value => /[a-z]/.test(value) || 'Password must contain at least one lowercase letter',
+    value => /[0-9]/.test(value) || 'Password must contain at least one number',
+    value => /[^A-Za-z0-9]/.test(value) || 'Password must contain at least one symbol'
+  ]
+  const confirmPasswordRules = [
+    value => !!value || 'Confirm Password is required',
+    value => value === data.value.password || 'Passwords must match'
+  ]
   // No additional script needed for now
   async function handleSubmit() {
-    const { isValid } = form.value && await form.value.validate()
-    if (!isValid) {
+    const { valid } = await form.value.validate()
+    if (!valid) {
       return
     }
     try {
+      errorMessage.value = ""
       const response = await axios.post('auth/register', data.value)
       router.push('/login')
     } catch (error) {
