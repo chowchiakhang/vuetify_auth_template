@@ -51,9 +51,10 @@
   async function handleClick() {
     // Handle logout logic here
     // For example, you can call an API to log out the user
-    await axios.post('api/logout')
+    // await axios.post('api/logout')
     // Redirect to home after logout
     userStore.name = null;
+    localStorage.removeItem('token') // Clear the token from local storage
     router.push('/')
   }
 </script>

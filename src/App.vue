@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-  import { onMounted } from 'vue'
+  import { onMounted, watch } from 'vue'
   import axios from 'axios'
   import Nav from './components/Nav.vue'
   import { useUserStore } from './stores/user.js'
@@ -16,17 +16,27 @@
 
   const userStore = useUserStore()
   const router = useRouter()
-  onMounted(async () => {
+
+  async function fetchUser() {
     try {
-      const response = await axios.get('users/me')
-      userStore.name = response.data.name; // Assuming the API returns the user's name
+      const response = await axios.get('users/me', {
+        headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+      })
+      userStore.name = response.data.username; // Assuming the API returns the user's name
     } catch (error) {
       console.error('Error fetching user data:', error)
       console.log('Please direct the user to login.')
-      if (error.status === 401 && (router.currentRoute.value.path !== '/login' || router.currentRoute.value.path !== '/register')) {
+      const routes = ['/', '/login', '/register']
+      if (error.status === 401 && (routes.find(router.currentRoute.value.path) === undefined)) {
         // Redirect to login if unauthorized
+        console.log(router.currentRoute.value.path)
         router.push('/login')
       }
     }
-  })
+  }
+  onMounted(fetchUser)
+
+  watch(() => router.currentRoute.value.path, () => {
+  fetchUser()
+})
 </script>

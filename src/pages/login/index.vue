@@ -46,7 +46,7 @@
         'auth/token',
         formData
     )
-    userStore.name = response.data.name; // Assuming the API returns the user's name
+    localStorage.setItem('token', response.data.access_token) // Store the token in local storage
     router.push('/') // Redirect to home after login
     } catch (error) {
       console.error('Login failed:', error)
